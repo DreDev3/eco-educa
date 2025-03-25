@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Button, Text, View, StyleSheet, TextInput, Image } from 'react-native';
+import { TouchableOpacity, Text, View, StyleSheet, TextInput, ImageBackground } from 'react-native';
 
 export default class App extends Component {
   constructor(props) {
@@ -9,23 +9,37 @@ export default class App extends Component {
       input: '',
     };
 
-    this.entrar = this.entrar.bind(this);
-  }
-
-  entrar() {
-    this.setState({
-      nome: 'Bem vindo, ' + this.state.input,
-    });
   }
 
   render() {
+
     return (
       <View style={styles.container}>
+
         <View style={styles.background}>
-        <Image source={{ uri: require('./assets/images/background.png') }} 
-        style={{ width: '100%'}} />
+          <ImageBackground
+            source={require('./assets/images/background.png')}
+            style={styles.img}
+          />
+        </View>
+        <View style={styles.areaInput}>
+          <TextInput style={styles.textInput} placeholder='E-mail'></TextInput>
+          <TextInput style={styles.textInput} placeholder='Senha' />
         </View>
 
+        <View style={styles.btnArea}>
+          <TouchableOpacity style={styles.btn}>
+            <Text style={styles.btnText}>
+              Cadastrar
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btn}>
+            <Text style={styles.btnText}>
+              Logar
+            </Text>
+          </TouchableOpacity>
+        </View>
 
       </View>
     );
@@ -39,20 +53,56 @@ const styles = StyleSheet.create({
   },
 
   background: {
-    flex: 2,
-    display: 'flex',
+    flex: 1,
+    width: '100%',
+    backgroundColor: '#77C7D9',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
 
-  content: {
-    width: '95%',
-    height: '80%',
-    backgroundColor: '#FFF',
-    borderRadius: 5,
-    marginTop: 0,
-    margin: 'auto',
+  img: {
+    width: '100%',
+    height: 450,
   },
+
+  btnArea: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  btn: {
+    marginTop: -700,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#8C472E',
+    borderRadius: 30,
+    margin: 30
+  },
+  btnText: {
+    width: 150,
+    textAlign: 'center',
+    fontSize: 26,
+    color: '#ffffff',
+    margin: 10
+  },
+  areaInput: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  textInput: {
+    marginTop: -1200,
+    backgroundColor: '#7FA644', 
+    width: 200,
+    height: 40,
+    borderRadius: 30,
+    padding: 10
+  }
 
 });
 
