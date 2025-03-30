@@ -1,5 +1,7 @@
 import { Component } from 'react';
-import { TouchableOpacity, Text, View, StyleSheet, TextInput, ImageBackground } from 'react-native';
+import { View, StyleSheet,ImageBackground } from 'react-native';
+
+import Login from './src/components/Login/Index';
 
 export default class App extends Component {
   constructor(props) {
@@ -15,32 +17,11 @@ export default class App extends Component {
 
     return (
       <View style={styles.container}>
-
-        <View style={styles.background}>
           <ImageBackground
             source={require('./assets/images/background.png')}
             style={styles.img}
           />
-        </View>
-        <View style={styles.areaInput}>
-          <TextInput style={styles.textInput} placeholder='E-mail'></TextInput>
-          <TextInput style={styles.textInput} placeholder='Senha' />
-        </View>
-
-        <View style={styles.btnArea}>
-          <TouchableOpacity style={styles.btn}>
-            <Text style={styles.btnText}>
-              Cadastrar
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.btn}>
-            <Text style={styles.btnText}>
-              Logar
-            </Text>
-          </TouchableOpacity>
-        </View>
-
+          <Login />
       </View>
     );
   }
@@ -49,60 +30,15 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
-  },
-
-  background: {
-    flex: 1,
     width: '100%',
+    height: '100%',
+    position: 'absolute',
     backgroundColor: '#77C7D9',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginTop: '50'
   },
-
   img: {
     width: '100%',
-    height: 450,
+    height: '100%',
   },
-
-  btnArea: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-
-  },
-  btn: {
-    marginTop: -700,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#8C472E',
-    borderRadius: 30,
-    margin: 30
-  },
-  btnText: {
-    width: 150,
-    textAlign: 'center',
-    fontSize: 26,
-    color: '#ffffff',
-    margin: 10
-  },
-  areaInput: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  textInput: {
-    marginTop: -1200,
-    backgroundColor: '#7FA644', 
-    width: 200,
-    height: 40,
-    borderRadius: 30,
-    padding: 10
-  }
-
 });
 
