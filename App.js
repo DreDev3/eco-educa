@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     height: '100%',
     position: 'absolute',
     backgroundColor: '#77C7D9',
-    marginTop: '50'
   },
   img: {
     width: '100%',
