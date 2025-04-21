@@ -1,31 +1,20 @@
-import { Component } from 'react';
-import { View, StyleSheet,ImageBackground } from 'react-native';
+import { View, StyleSheet, ImageBackground } from 'react-native';
 
 import Login from './src/components/Login/Index';
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      nome: '',
-      input: '',
-    };
-
-  }
-
-  render() {
-
-    return (
-      <View style={styles.container}>
-          <ImageBackground
-            source={require('./assets/images/background.png')}
-            style={styles.img}
-          />
-          <Login />
-      </View>
-    );
-  }
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <ImageBackground
+        source={require('./assets/images/background.png')}
+        style={styles.img}
+      >
+        <Login />
+      </ImageBackground>
+    </View>
+  );
 }
+
 
 const styles = StyleSheet.create({
   container: {

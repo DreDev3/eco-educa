@@ -1,117 +1,163 @@
-import React, { Component } from "react";
-import { View, Image, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from "react";
+import {
+    View,
+    Image,
+    TextInput,
+    StyleSheet,
+    TouchableOpacity,
+    Modal,
+    ImageBackground,
+} from "react-native";
+import { useFonts, Jersey10_400Regular } from "@expo-google-fonts/jersey-10";
 
-export default class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            cadastrar: require('../../../assets/images/cadastrar.png'),
-            login: require('../../../assets/images/login.png')
-        }
-        this.switchBtnCadastrar = this.switchBtnCadastrar.bind(this);
-        this.switchBtnOutCadastrar = this.switchBtnOutCadastrar.bind(this);
+import Register from "../Register/Index";
+import Perfil from "../Perfil/Index";
 
-        this.switchBtnLogin = this.switchBtnLogin.bind(this);
-        this.switchBtnOutLogin = this.switchBtnOutLogin.bind(this);
-    }
-    switchBtnCadastrar() {
-        this.setState({
-            cadastrar: require('../../../assets/images/cadastrar_hover.png')
-        })
-    }
-    switchBtnOutCadastrar() {
-        this.setState({
-            cadastrar: require('../../../assets/images/cadastrar.png')
-        })
-    }
+export default function Login() {
+    const [cadastrarImg, setCadastrarImg] = useState(require('../../../assets/images/cadastrar.png'));
+    const [loginImg, setLoginImg] = useState(require('../../../assets/images/login.png'));
+    const [modalRegisterVisible, setModalRegisterVisible] = useState(false);
+    const [modalProfileVisible, setModalProfileVisible] = useState(false);
 
-    switchBtnLogin() {
-        this.setState({
-            login: require('../../../assets/images/login_hover.png')
-        })
-    }
-    switchBtnOutLogin() {
-        this.setState({
-            login: require('../../../assets/images/login.png')
-        })
+    const [fontsLoaded] = useFonts({
+        Jersey10: Jersey10_400Regular
+    });
+
+    if (!fontsLoaded) {
+        return null;
     }
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.areaInput}>
-                    <TextInput style={styles.textInput} placeholder="E-mail" placeholderTextColor={'white'} />
-                </View>
-                <View style={styles.areaInput}>
-                    <TextInput style={styles.textInput} placeholder='Senha' placeholderTextColor={'white'} />
-                </View>
+    return (
+        <ImageBackground
+            source={require("../../../assets/images/background.png")}
+            resizeMode="cover"
+            style={styles.background}
+        >
+            <View style={styles.overlay}>
+                <View style={styles.form}>
+                    {/* Input E-mail */}
+                    <ImageBackground
+                        source={require('../../../assets/images/Sprite-0001.png')}
+                        style={styles.inputBackground}
+                        imageStyle={{ borderRadius: 30 }}
+                        resizeMode="cover"
+                    >
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder="E-mail"
+                            placeholderTextColor="#8C472E"
+                        />
+                    </ImageBackground>
 
-                <View style={styles.btnArea}>
-                    {/*                     <TouchableOpacity style={styles.btn}>
-                        <Text style={styles.btnText}>
-                            Cadastrar
-                        </Text>
-                    </TouchableOpacity>
+                    {/* Input Senha */}
+                    <ImageBackground
+                        source={require('../../../assets/images/Sprite-0001.png')}
+                        style={styles.inputBackground}
+                        imageStyle={{ borderRadius: 30 }}
+                        resizeMode="cover"
+                    >
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder="Senha"
+                            placeholderTextColor="#8C472E"
+                            secureTextEntry
+                        />
+                    </ImageBackground>
 
-                    <TouchableOpacity style={styles.btn}>
-                        <Text style={styles.btnText}>
-                            Logar
-                        </Text>
-                    </TouchableOpacity> */}
-                    <TouchableOpacity style={styles.btn} activeOpacity={1} onPressIn={this.switchBtnCadastrar} onPressOut={this.switchBtnOutCadastrar}>
-                        <Image source={this.state.cadastrar} style={{ width: 150, height: 40 }} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.btn} activeOpacity={1} onPressIn={this.switchBtnLogin} onPressOut={this.switchBtnOutLogin}>
-                        <Image source={this.state.login} style={{ width: 110, height: 40 }} />
-                    </TouchableOpacity>
+                    {/* Botões: Cadastrar e Login */}
+                    <View style={styles.btnRow}>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            activeOpacity={1}
+                            onPressIn={() => setCadastrarImg(require('../../../assets/images/cadastrar_hover.png'))}
+                            onPressOut={() => {
+                                setCadastrarImg(require('../../../assets/images/cadastrar.png'));
+                                setModalRegisterVisible(true);
+                            }}
+                        >
+                            <Image source={cadastrarImg} style={{ width: 150, height: 40 }} />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.btn}
+                            activeOpacity={1}
+                            onPressIn={() => setLoginImg(require('../../../assets/images/login_hover.png'))}
+                            onPressOut={() => {
+                                setLoginImg(require('../../../assets/images/login.png'))
+                                setModalProfileVisible(true);
+                            }}
+                        >
+                            <Image source={loginImg} style={{ width: 110, height: 40 }} />
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* Modal com Componente Register */}
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={modalRegisterVisible}
+                        onRequestClose={() => setModalRegisterVisible(false)}
+                    >
+                        <View style={{ flex: 1, backgroundColor: '#000' }}>
+                            {modalRegisterVisible && <Register onClose={() => setModalRegisterVisible(false)} />}
+                        </View>
+                    </Modal>
+
+                    {/* Modal com Componente Perfil */}
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={modalProfileVisible}
+                        onRequestClose={() => setModalProfileVisible(false)}
+                    >
+                        <View style={{ flex: 1, backgroundColor: '#000' }}>
+                            {modalProfileVisible && <Perfil onClose={() => setModalProfileVisible(false)} />}
+                        </View>
+                    </Modal>
                 </View>
             </View>
-        );
-    }
+        </ImageBackground>
+    );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    background: {
         flex: 1,
-        marginTop: '50%',
+        justifyContent: "center",
     },
-    btnArea: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-
+    overlay: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 20,
     },
-    btn: {
-        marginTop: -1500,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 30,
-        margin: 10,
+    form: {
+        width: "100%",
+        alignItems: "center",
     },
-    btnText: {
-        width: 150,
-        textAlign: 'center',
-        fontSize: 26,
-        color: '#ffffff',
-        margin: 10
-    },
-    areaInput: {
-        height: 100,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    textInput: {
-        marginTop: -1800,
-        backgroundColor: '#884B2B',
-        opacity: 0.9,
-        color: '#ffffff',
+    inputBackground: {
         width: 300,
         height: 50,
+        justifyContent: 'center',
+        paddingHorizontal: 15,
+        marginVertical: 10,
+    },
+    textInput: {
+        fontFamily: "Jersey10",
+        color: "#7FA644",
+        fontSize: 22,
+        paddingHorizontal: 10,
+    },
+    btnRow: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 20,
+        marginTop: 20,
+    },
+    btn: {
         borderRadius: 30,
-        padding: 10,
-        fontSize: 18
-    }
-})
+        alignItems: "center",
+        justifyContent: "center",
+    },
+});
