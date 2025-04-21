@@ -7,11 +7,16 @@ import {
   Text,
   Image,
   Animated,
+  Modal,
 } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 
+import Mapa from "../Mapa/Index";
+
 export default function Perfil({ onClose }) {
   const [name, setName] = useState("Usuario");
+  const [mapVisible, setMapVisible] = useState(false);
+  const [modalMapaVisible, setModalMapaVisible] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const sidebarAnim = useRef(new Animated.Value(-300)).current;
 
@@ -47,7 +52,14 @@ export default function Perfil({ onClose }) {
           style={styles.profileImage}
         />
         <Text style={styles.menuText}>{name}</Text>
-        <TouchableOpacity onPress={onClose}>
+        <TouchableOpacity /* onPress={} */ style={{ marginTop: 20 }}>
+          {/* <Text style={styles.editText}>Editar</Text> */}
+          <Image
+            source={require("../../../assets/images/editar.png")}
+            style={{ width: 100, height: 30 }}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onClose} style={{ position: 'absolute', bottom: 10, left: 20 }}>
           <Text style={styles.closeText}>Sair</Text>
         </TouchableOpacity>
       </Animated.View>
@@ -62,14 +74,25 @@ export default function Perfil({ onClose }) {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.mapBtn}>
+        <TouchableOpacity style={styles.mapBtn} onPress={() => setModalMapaVisible(true)}>
           <Image
-            source={require("../../../assets/images/jogar.png")}
-            style={{ width: 120, height: 40 }}
+            source={require("../../../assets/images/mapa.png")}
+            style={{ width: 70, height: 80 }}
           />
         </TouchableOpacity>
+
       </View>
-      {/* Botão fechar geral */}
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalMapaVisible}
+        onRequestClose={() => setModalMapaVisible(false)}
+      >
+        <View style={{ flex: 1 }}>
+          <Mapa onClose={() => setModalMapaVisible(false)} />
+        </View>
+      </Modal>
     </ImageBackground>
   );
 }
@@ -125,6 +148,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     marginLeft: '65%',
+  },
+  editText: {
+    color: "#fff",
+    fontSize: 28,
+    fontFamily: "Jersey10",
   },
   closeText: {
     color: "#fff",
