@@ -1,45 +1,134 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   ImageBackground,
   StyleSheet,
   TouchableOpacity,
-  Text
-}
-  from "react-native";
+  Text,
+  Image,
+  Animated,
+} from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Perfil({ onClose }) {
+  const [name, setName] = useState("Usuario");
+  const [menuVisible, setMenuVisible] = useState(false);
+  const sidebarAnim = useRef(new Animated.Value(-300)).current;
+
+  const toggleMenu = () => {
+    Animated.timing(sidebarAnim, {
+      toValue: menuVisible ? -300 : 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+
+    setMenuVisible(!menuVisible);
+  };
+
   return (
     <ImageBackground
       source={require("../../../assets/images/background.png")}
       resizeMode="cover"
-      style={styles.background}>
-      <View style={styles.container}>
+      style={styles.background}
+    >
+      {/* Botão de menu */}
+      <TouchableOpacity style={styles.menuBtn} onPress={toggleMenu}>
+        <Ionicons
+          name={menuVisible ? "close" : "menu"}
+          size={28}
+          color="white"
+        />
+      </TouchableOpacity>
 
+      {/* Sidebar animada */}
+      <Animated.View style={[styles.sidebar, { left: sidebarAnim }]}>
+        <Image
+          source={require('../../../assets/images/profile.png')}
+          style={styles.profileImage}
+        />
+        <Text style={styles.menuText}>{name}</Text>
         <TouchableOpacity onPress={onClose}>
-          <Text style={styles.closeText}>Fechar</Text>
+          <Text style={styles.closeText}>Sair</Text>
+        </TouchableOpacity>
+      </Animated.View>
+      <Text style={styles.enterText}>
+        Olá, {name}!
+      </Text>
+      <View style={styles.buttonArea}>
+        <TouchableOpacity style={styles.gameBtn}>
+          <Image
+            source={require("../../../assets/images/jogar.png")}
+            style={{ width: 120, height: 40 }}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.mapBtn}>
+          <Image
+            source={require("../../../assets/images/jogar.png")}
+            style={{ width: 120, height: 40 }}
+          />
         </TouchableOpacity>
       </View>
+      {/* Botão fechar geral */}
     </ImageBackground>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
-  container: {
-    flex: 1,
-    justifyContent: "center",
+  enterText: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 30,
+    marginTop: '30%',
+    marginBottom: 20,
+    fontFamily: "Jersey10",
+  },
+  buttonArea: {
+    width: "100%",
+    height: "50%",
+    flexDirection: "row",
+    justifyContent: "space-around",
     alignItems: "center",
     paddingHorizontal: 20,
   },
+  menuBtn: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    backgroundColor: '#8C472E',
+    borderRadius: 50,
+    padding: 10,
+    zIndex: 2,
+  },
+  sidebar: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '70%',
+    height: '100%',
+    backgroundColor: '#8C472E',
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    zIndex: 1,
+  },
+  profileImage: {
+    borderRadius: 40,
+    width: 80,
+    height: 80,
+    marginLeft: '62%',
+  },
+  menuText: {
+    color: '#fff',
+    fontSize: 18,
+    marginLeft: '65%',
+  },
   closeText: {
     color: "#fff",
-    textAlign: "center",
-    marginTop: 30,
-    fontSize: 16,
-    textDecorationLine: "underline",
+    fontSize: 28,
+    fontFamily: "Jersey10",
   },
 });

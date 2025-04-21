@@ -52,6 +52,7 @@ export default function Register({ onClose }) {
                             style={styles.textInput}
                             placeholder="Senha"
                             placeholderTextColor="#8C472E"
+                            secureTextEntry={true}
                         />
                     </ImageBackground>
 

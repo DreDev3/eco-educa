@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         fontFamily: "Jersey10",
-        color: "#7FA644",
+        color: "#8C472E",
         fontSize: 22,
         paddingHorizontal: 10,
     },
