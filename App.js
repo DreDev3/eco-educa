@@ -1,6 +1,6 @@
 import { View, StyleSheet, ImageBackground } from 'react-native';
 
-import Login from './src/components/Login/Index';
+import Login from './src/screens/Login/Index';
 
 export default function App() {
   return (
