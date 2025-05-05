@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   ImageBackground,
@@ -9,6 +9,8 @@ import {
   Animated,
   Modal,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { jwtDecode } from "jwt-decode";
 import { Ionicons } from '@expo/vector-icons';
 
 import Mapa from "../Mapa/Index";
@@ -18,6 +20,9 @@ export default function Perfil({ onClose }) {
   const [mapVisible, setMapVisible] = useState(false);
   const [modalMapaVisible, setModalMapaVisible] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
+  const [avatar, setAvatar] = useState('');
+  const [modalAvatarVisible, setModalAvatarVisible] = useState(false);
+
   const sidebarAnim = useRef(new Animated.Value(-300)).current;
 
   const toggleMenu = () => {
@@ -29,6 +34,60 @@ export default function Perfil({ onClose }) {
 
     setMenuVisible(!menuVisible);
   };
+
+  useEffect(() => {
+    const carregarUsuario = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (token) {
+          const decoded = jwtDecode(token);
+          setName(decoded.nome || "Usuário");
+          setAvatar(decoded.avatar || '');
+        }
+      } catch (error) {
+        console.error("Erro ao carregar token:", error);
+      }
+    };
+
+    carregarUsuario();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('token');
+      onClose(); // volta para a tela inicial ou login
+    } catch (error) {
+      console.error('Erro ao sair:', error);
+    }
+  };
+
+  const handleSelectAvatar = async (avatarName) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (!token) return;
+
+      await fetch('http://192.168.1.8:3001/users/avatar', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ avatar: avatarName }),
+      });
+
+      setAvatar(avatarName); // Atualiza no estado
+      setModalAvatarVisible(false);
+    } catch (error) {
+      console.error('Erro ao atualizar avatar:', error);
+    }
+  };
+
+  const listaAvatares = [
+    'avatar01.png',
+    'avatar02.png',
+    'avatar03.png',
+    'avatar04.png',
+  ];
 
   return (
     <ImageBackground
@@ -47,10 +106,12 @@ export default function Perfil({ onClose }) {
 
       {/* Sidebar animada */}
       <Animated.View style={[styles.sidebar, { left: sidebarAnim }]}>
-        <Image
-          source={require('../../../assets/images/profile.png')}
-          style={styles.profileImage}
-        />
+        <TouchableOpacity onPress={() => setModalAvatarVisible(true)}>
+          <Image
+            source={avatar ? { uri: `http://192.168.1.8:3001/images/${avatar}` } : require('../../../assets/images/profile.png')}
+            style={styles.profileImage}
+          />
+        </TouchableOpacity>
         <Text style={styles.menuText}>{name}</Text>
         <TouchableOpacity /* onPress={} */ style={{ marginTop: 20 }}>
           {/* <Text style={styles.editText}>Editar</Text> */}
@@ -59,7 +120,7 @@ export default function Perfil({ onClose }) {
             style={{ width: 100, height: 30 }}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={onClose} style={{ position: 'absolute', bottom: 10, left: 20 }}>
+        <TouchableOpacity onPress={handleLogout} style={{ position: 'absolute', bottom: 10, left: 20 }}>
           <Text style={styles.closeText}>Sair</Text>
         </TouchableOpacity>
       </Animated.View>
@@ -93,6 +154,33 @@ export default function Perfil({ onClose }) {
           <Mapa onClose={() => setModalMapaVisible(false)} />
         </View>
       </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalAvatarVisible}
+        onRequestClose={() => setModalAvatarVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Escolha seu Avatar</Text>
+            <View style={styles.avatarList}>
+              {listaAvatares.map((avatarName, index) => (
+                <TouchableOpacity key={index} onPress={() => handleSelectAvatar(avatarName)}>
+                  <Image
+                    source={{ uri: `http://192.168.1.8:3001/images/${avatarName}` }}
+                    style={styles.avatarImage}
+                  />
+                </TouchableOpacity>
+              ))}
+            </View>
+            <TouchableOpacity onPress={() => setModalAvatarVisible(false)}>
+              <Text style={styles.closeModalText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
     </ImageBackground>
   );
 }
@@ -159,4 +247,39 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontFamily: "Jersey10",
   },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#8C472E',
+    borderRadius: 10,
+    padding: 20,
+    width: '80%',
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 24,
+    marginBottom: 20,
+    fontFamily: "Jersey10",
+  },
+  avatarList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  avatarImage: {
+    width: 80,
+    height: 80,
+    margin: 10,
+    borderRadius: 40,
+  },
+  closeModalText: {
+    marginTop: 20,
+    color: '#8C472E',
+    fontSize: 18,
+  }
+
 });

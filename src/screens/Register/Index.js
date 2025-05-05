@@ -1,69 +1,102 @@
-import React from "react";
+import React, { useState } from 'react';
 import {
     View,
-    Image,
     TextInput,
     StyleSheet,
     TouchableOpacity,
     Text,
+    Image,
     ImageBackground,
-} from "react-native";
+} from 'react-native';
+import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
-export default function Register({ onClose }) {
+export default function Register({ onClose, navigation }) {
+    const [nome, setNome] = useState('');
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+
+    const handleRegister = async () => {
+        if (!nome || !email || !senha) {
+            Toast.show({ type: 'info', text1: 'Atenção', text2: 'Preencha todos os campos.' });
+            return;
+        }
+        try {
+            await axios.post('http://192.168.1.8:3001/users', { nome, email, password: senha });
+            Toast.show({ type: 'success', text1: 'Sucesso', text2: 'Cadastro realizado com sucesso!' });
+            // Fechar tela/modal
+            if (onClose) onClose();
+            else if (navigation) navigation.goBack();
+        } catch (error) {
+            console.error('Erro ao cadastrar:', error);
+            Toast.show({ type: 'error', text1: 'Erro', text2: 'Não foi possível cadastrar. Tente novamente.' });
+        }
+    };
+
     return (
         <ImageBackground
-            source={require("../../../assets/images/background.png")}
+            source={require('../../../assets/images/background.png')}
             resizeMode="cover"
             style={styles.background}
         >
             <View style={styles.overlay}>
                 <View style={styles.form}>
+                    {/** Nome **/}
                     <ImageBackground
                         source={require('../../../assets/images/Sprite-0001.png')}
                         style={styles.inputBackground}
                         imageStyle={{ borderRadius: 30 }}
-                        resizeMode="cover"
                     >
                         <TextInput
                             style={styles.textInput}
                             placeholder="Nome"
                             placeholderTextColor="#8C472E"
+                            value={nome}
+                            onChangeText={setNome}
                         />
                     </ImageBackground>
+
+                    {/** E-mail **/}
                     <ImageBackground
                         source={require('../../../assets/images/Sprite-0001.png')}
                         style={styles.inputBackground}
                         imageStyle={{ borderRadius: 30 }}
-                        resizeMode="cover"
                     >
                         <TextInput
                             style={styles.textInput}
                             placeholder="E-mail"
                             placeholderTextColor="#8C472E"
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
                         />
                     </ImageBackground>
+
+                    {/** Senha **/}
                     <ImageBackground
                         source={require('../../../assets/images/Sprite-0001.png')}
                         style={styles.inputBackground}
                         imageStyle={{ borderRadius: 30 }}
-                        resizeMode="cover"
                     >
                         <TextInput
                             style={styles.textInput}
                             placeholder="Senha"
                             placeholderTextColor="#8C472E"
-                            secureTextEntry={true}
+                            secureTextEntry
+                            value={senha}
+                            onChangeText={setSenha}
                         />
                     </ImageBackground>
 
-                    <TouchableOpacity style={styles.btn}>
+                    <TouchableOpacity style={styles.btn} onPress={handleRegister}>
                         <Image
-                            source={require("../../../assets/images/cadastrar.png")}
+                            source={require('../../../assets/images/cadastrar.png')}
                             style={{ width: 150, height: 40 }}
                         />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={onClose}>
+                    <TouchableOpacity style={styles.closeBtn} onPress={() => (onClose ? onClose() : navigation?.goBack())}>
                         <Text style={styles.closeText}>Fechar</Text>
                     </TouchableOpacity>
                 </View>
@@ -75,40 +108,41 @@ export default function Register({ onClose }) {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        justifyContent: "center",
+        justifyContent: 'center'
     },
     overlay: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 20
     },
     form: {
-        width: "100%",
-        alignItems: "center",
+        width: '100%',
+        alignItems: 'center'
     },
-    textInput: {
-        fontFamily: "Jersey10",
-        opacity: 0.9,
-        color: "#8C472E",
+    inputBackground: {
         width: 300,
         height: 50,
-        borderRadius: 30,
-        paddingHorizontal: 25,
+        justifyContent: 'center',
+        paddingHorizontal: 15,
+        marginVertical: 10
+    },
+    textInput: {
+        fontFamily: 'Jersey10',
+        color: '#8C472E',
         fontSize: 22,
-        marginVertical: 10,
+        paddingLeft: 10,
     },
     btn: {
         marginTop: 20,
-        borderRadius: 30,
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center'
+    },
+    closeBtn: {
+        marginTop: 30
     },
     closeText: {
-        color: "#fff",
-        textAlign: "center",
-        marginTop: 30,
-        fontSize: 16,
-        textDecorationLine: "underline",
+        color: '#fff',
+        fontFamily: 'Jersey10',
+        fontSize: 26,
     },
 });
