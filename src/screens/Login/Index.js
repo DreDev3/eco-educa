@@ -13,8 +13,8 @@ import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from '../../services/axios';
-import Register from "../Register/Index";
-import Perfil from "../Perfil/Index";
+import Register from '../Register/Index';
+import Perfil from '../Perfil/Index';
 
 export default function Login() {
     const [cadastrarImg, setCadastrarImg] = useState(require('../../../assets/images/cadastrar.png'));
@@ -54,7 +54,8 @@ export default function Login() {
                 text1: 'Sucesso',
                 text2: 'Login realizado com sucesso!'
             });
-
+            setEmail("");
+            setSenha("");
             // Abrir modal do perfil
             setModalProfileVisible(true);
 

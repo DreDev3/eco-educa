@@ -22,7 +22,7 @@ export default function Register({ onClose, navigation }) {
             return;
         }
         try {
-            await axios.post('http://192.168.1.8:3001/users', { nome, email, password: senha });
+            await axios.post('http://192.168.1.6/api/users/', { nome, email, password: senha });
             Toast.show({ type: 'success', text1: 'Sucesso', text2: 'Cadastro realizado com sucesso!' });
             // Fechar tela/modal
             if (onClose) onClose();

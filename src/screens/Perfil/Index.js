@@ -12,8 +12,11 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import { Ionicons } from '@expo/vector-icons';
+import { Alert } from "react-native";
 
+import axios from '../../services/axios'
 import Mapa from "../Mapa/Index";
+import Update from "../ProfileUpdate/Index";
 
 export default function Perfil({ onClose }) {
   const [name, setName] = useState("Usuario");
@@ -22,6 +25,8 @@ export default function Perfil({ onClose }) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [avatar, setAvatar] = useState('');
   const [modalAvatarVisible, setModalAvatarVisible] = useState(false);
+  const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
+
 
   const sidebarAnim = useRef(new Animated.Value(-300)).current;
 
@@ -66,20 +71,54 @@ export default function Perfil({ onClose }) {
       const token = await AsyncStorage.getItem('token');
       if (!token) return;
 
-      await fetch('http://192.168.1.8:3001/users/avatar', {
-        method: 'PUT',
+      await axios.put('/users/avatar', { avatar: avatarName }, {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ avatar: avatarName }),
+          Authorization: `Bearer ${token}`
+        }
       });
 
-      setAvatar(avatarName); // Atualiza no estado
+      setAvatar(avatarName);
       setModalAvatarVisible(false);
     } catch (error) {
-      console.error('Erro ao atualizar avatar:', error);
+      console.error('Erro ao atualizar avatar:', error.response?.data || error.message);
     }
+  };
+
+  const handleDeleteProfile = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (!token) return;
+
+      await axios.delete('/users', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      await AsyncStorage.removeItem('token');
+      onClose(); // volta para a tela de login ou inicial
+    } catch (error) {
+      console.error('Erro ao excluir usuário:', error.response?.data || error.message);
+    }
+  };
+
+  const confirmarExclusao = () => {
+    Alert.alert(
+      'Confirmar exclusão',
+      'Tem certeza que deseja excluir sua conta? Esta ação não poderá ser desfeita.',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Sim, excluir',
+          onPress: handleDeleteProfile,
+          style: 'destructive',
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   const listaAvatares = [
@@ -87,6 +126,8 @@ export default function Perfil({ onClose }) {
     'avatar02.png',
     'avatar03.png',
     'avatar04.png',
+    'avatar05.png',
+    'avatar06.png'
   ];
 
   return (
@@ -108,18 +149,31 @@ export default function Perfil({ onClose }) {
       <Animated.View style={[styles.sidebar, { left: sidebarAnim }]}>
         <TouchableOpacity onPress={() => setModalAvatarVisible(true)}>
           <Image
-            source={avatar ? { uri: `http://192.168.1.8:3001/images/${avatar}` } : require('../../../assets/images/profile.png')}
+            source={avatar ? { uri: `http://192.168.1.6/api/images/${avatar}` } : require('../../../assets/images/profile.png')}
             style={styles.profileImage}
           />
         </TouchableOpacity>
-        <Text style={styles.menuText}>{name}</Text>
-        <TouchableOpacity /* onPress={} */ style={{ marginTop: 20 }}>
-          {/* <Text style={styles.editText}>Editar</Text> */}
+        <View style={{ width: 100, marginLeft: '60%' }}>
+          <Text style={styles.menuText}>{name}</Text>
+        </View>
+
+        {/* Botão de editar Perfil */}
+        <TouchableOpacity onPress={() => setModalUpdateVisible(true)} style={{ marginTop: 20 }}>
           <Image
             source={require("../../../assets/images/editar.png")}
             style={{ width: 100, height: 30 }}
           />
         </TouchableOpacity>
+
+        {/* Botão de Desativar Perfil */}
+        <TouchableOpacity onPress={confirmarExclusao} style={{ marginTop: 20 }}>
+          <Image
+            source={require("../../../assets/images/desativar.png")}
+            style={{ width: 130, height: 35 }}
+          />
+        </TouchableOpacity>
+
+        {/* Botão de sair da conta */}
         <TouchableOpacity onPress={handleLogout} style={{ position: 'absolute', bottom: 10, left: 20 }}>
           <Text style={styles.closeText}>Sair</Text>
         </TouchableOpacity>
@@ -135,6 +189,7 @@ export default function Perfil({ onClose }) {
           />
         </TouchableOpacity>
 
+        {/* Botão para o Mapa Eco-ponto */}
         <TouchableOpacity style={styles.mapBtn} onPress={() => setModalMapaVisible(true)}>
           <Image
             source={require("../../../assets/images/mapa.png")}
@@ -168,7 +223,7 @@ export default function Perfil({ onClose }) {
               {listaAvatares.map((avatarName, index) => (
                 <TouchableOpacity key={index} onPress={() => handleSelectAvatar(avatarName)}>
                   <Image
-                    source={{ uri: `http://192.168.1.8:3001/images/${avatarName}` }}
+                    source={{ uri: `http://192.168.1.6/api/images/${avatarName}` }}
                     style={styles.avatarImage}
                   />
                 </TouchableOpacity>
@@ -179,6 +234,17 @@ export default function Perfil({ onClose }) {
             </TouchableOpacity>
           </View>
         </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalUpdateVisible}
+        onRequestClose={() => setModalUpdateVisible(false)}
+      >
+        <Update
+          onClose={() => setModalUpdateVisible(false)}
+          updateName={newName => setName(newName)} />
       </Modal>
 
     </ImageBackground>
@@ -230,12 +296,13 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     width: 80,
     height: 80,
-    marginLeft: '62%',
+    marginLeft: '64%',
   },
   menuText: {
     color: '#fff',
-    fontSize: 18,
-    marginLeft: '65%',
+    fontFamily: "Jersey10",
+    textAlign: 'center',
+    fontSize: 22,
   },
   editText: {
     color: "#fff",
@@ -257,7 +324,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#8C472E',
     borderRadius: 10,
     padding: 20,
-    width: '80%',
+    width: '90%',
     alignItems: 'center',
   },
   modalTitle: {
@@ -278,8 +345,9 @@ const styles = StyleSheet.create({
   },
   closeModalText: {
     marginTop: 20,
-    color: '#8C472E',
-    fontSize: 18,
+    color: '#000000',
+    fontFamily: "Jersey10",
+    fontSize: 25,
   }
 
 });
