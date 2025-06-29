@@ -8,7 +8,7 @@ import {
     Image,
     ImageBackground,
 } from 'react-native';
-import axios from 'axios';
+import axios from '../../services/axios';
 import Toast from 'react-native-toast-message';
 
 export default function Register({ onClose, navigation }) {
@@ -22,7 +22,7 @@ export default function Register({ onClose, navigation }) {
             return;
         }
         try {
-            await axios.post('http://192.168.1.8:3001/users', { nome, email, password: senha });
+            await axios.post('/users', { nome, email, password: senha });
             Toast.show({ type: 'success', text1: 'Sucesso', text2: 'Cadastro realizado com sucesso!' });
             // Fechar tela/modal
             if (onClose) onClose();
