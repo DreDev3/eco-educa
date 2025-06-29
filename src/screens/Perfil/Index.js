@@ -17,6 +17,7 @@ import { Alert } from "react-native";
 import axios from '../../services/axios'
 import Mapa from "../Mapa/Index";
 import Update from "../ProfileUpdate/Index";
+import GameScreen from "../Game/Index";
 
 export default function Perfil({ onClose }) {
   const [name, setName] = useState("Usuario");
@@ -26,6 +27,9 @@ export default function Perfil({ onClose }) {
   const [avatar, setAvatar] = useState('');
   const [modalAvatarVisible, setModalAvatarVisible] = useState(false);
   const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
+  const [modalGameVisible, setModalGameVisible] = useState(false);
+
+  const baseURL = 'http://192.168.1.3/api';
 
 
   const sidebarAnim = useRef(new Animated.Value(-300)).current;
@@ -149,7 +153,7 @@ export default function Perfil({ onClose }) {
       <Animated.View style={[styles.sidebar, { left: sidebarAnim }]}>
         <TouchableOpacity onPress={() => setModalAvatarVisible(true)}>
           <Image
-            source={avatar ? { uri: `http://192.168.1.6/api/images/${avatar}` } : require('../../../assets/images/profile.png')}
+            source={avatar ? { uri: `${baseURL}/images/${avatar}` } : require('../../../assets/images/profile.png')}
             style={styles.profileImage}
           />
         </TouchableOpacity>
@@ -182,7 +186,7 @@ export default function Perfil({ onClose }) {
         Olá, {name}!
       </Text>
       <View style={styles.buttonArea}>
-        <TouchableOpacity style={styles.gameBtn}>
+        <TouchableOpacity onPress={() => setModalGameVisible(true)} style={styles.gameBtn}>
           <Image
             source={require("../../../assets/images/jogar.png")}
             style={{ width: 120, height: 40 }}
@@ -223,7 +227,7 @@ export default function Perfil({ onClose }) {
               {listaAvatares.map((avatarName, index) => (
                 <TouchableOpacity key={index} onPress={() => handleSelectAvatar(avatarName)}>
                   <Image
-                    source={{ uri: `http://192.168.1.6/api/images/${avatarName}` }}
+                    source={{ uri: `${baseURL}/images/${avatarName}` }}
                     style={styles.avatarImage}
                   />
                 </TouchableOpacity>
@@ -245,6 +249,16 @@ export default function Perfil({ onClose }) {
         <Update
           onClose={() => setModalUpdateVisible(false)}
           updateName={newName => setName(newName)} />
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalGameVisible}
+        onRequestClose={() => setModalGameVisible(false)}
+      >
+        <GameScreen
+          onClose={() => setModalGameVisible(false)} />
       </Modal>
 
     </ImageBackground>
