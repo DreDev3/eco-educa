@@ -1,88 +1,77 @@
-# 🌱 ECO-EDUCA
+# ![Logo](./Assets/logoGuaxinim.png)  EcoEduca
 
-*Empoderando Futuros Sustentáveis Através da Educação Inovadora*
+---
+
+## 📝 Sobre o projeto
+
+O jogo _mobile_ **EcoEduca** visa promover o incentivo e conscientização de crianças e adolescentes por meio da educação lúdica, ou seja, utilizando da gamificação para gerar engajamento com as temáticas de Meio Ambiente e Reciclagem.
+
+---
+
+### 📸 Telas do Sistema:
+| **Tela de Login** | **Tela de Cadastro** | **Tela de Login** | **Tela de Cadastro** |
+| ----------------- | -------------------- |  ----------------- | -------------------- |
+| <img src="./Assets/Telas/Login.jpeg" alt="Tela de Login" width="200"> | <img src="./Assets/Telas/Cadastro.jpeg" alt="Tela de Cadastro" width="200"> |  <img src="./Assets/Telas/Inicio.jpeg" alt="Tela de Inicio" width="200"> |<img src="./Assets/Telas/Avatar.jpeg" alt="Tela de Avatar" width="200"> |
+  
+| **Tela de Login** | **Tela de Cadastro** |   **Tela de Login** | **Tela de Cadastro** |
+| ----------------- | -------------------- |  ----------------- | -------------------- |
+| <img src="./Assets/Telas/Mapa.jpeg" alt="Tela de Mapa" width="200"> |<img src="./Assets/Telas/Jogo.jpeg" alt="Tela de Jogo" width="200"> | <img src="./Assets/Telas/Erro.jpeg" alt="Tela de Exclusão" width="200"> | <img src="./Assets/Telas/AlterarCadastro.jpeg" alt="Tela de Alterar Cadastro" width="200"> |
+
+---
+
+### ✅ Funcionalidades:
+
+- 🎯 **Integração com Localização & Mapas:** Exibe ecopontos próximos a localização do usuário
+- 🎨 **Conta e Personalização de Avatar:** É possível logar ou criar uma nova conta para utilizar o aplicativo, além do usuário poder escolher uma avatar pré-definido a sua escolha
+- 🚀 **Educação Gamificada:** A principal funcionalidade do projeto, um jogo educativo sobre o meio ambiente e reciclagem
+
+---
+
+### ⚙️ Sobre o Funcionamento:
+
+- O sistema exige **cadastro/login?** → Sim, para utilizar o aplicativo, é preciso realizar o **_login_**, caso não tenha uma conta, é **necessário que o usuário crie**;
+- Após o login, o usuário pode:
+  - **Escolher um avatar** para lhe representar;
+  - **Atualizar** suas informações;
+  - **Desativar** sua conta;
+  - Verificar os **ecopontos** mais próximos da sua localidade;
+  - **Jogar** para se divertir e aprender;
+
+---
+
+### 🧪 Tecnologias Utilizadas
 
 <div align="center">
 
-![last-commit](https://img.shields.io/github/last-commit/DreDev3/eco-educa?style=flat&logo=git&logoColor=white&color=0080ff)
-![repo-top-language](https://img.shields.io/github/languages/top/DreDev3/eco-educa?style=flat&color=0080ff)
-![repo-language-count](https://img.shields.io/github/languages/count/DreDev3/eco-educa?style=flat&color=0080ff)
-
-**Construído com as seguintes tecnologias:**
-
-![JSON](https://img.shields.io/badge/JSON-000000.svg?style=flat&logo=JSON&logoColor=white)
-![npm](https://img.shields.io/badge/npm-CB3837.svg?style=flat&logo=npm&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=flat&logo=JavaScript&logoColor=black)
 ![React](https://img.shields.io/badge/React-61DAFB.svg?style=flat&logo=React&logoColor=black)
-![Expo](https://img.shields.io/badge/Expo-000020.svg?style=flat&logo=Expo&logoColor=white)
-![Axios](https://img.shields.io/badge/Axios-5A29E4.svg?style=flat&logo=Axios&logoColor=white)
+![React Native](https://img.shields.io/badge/React_Native-20232A?style=flat&logo=react&logoColor=61DAFB)
+![Construct 3](https://img.shields.io/badge/Construct_3-01E2C9?style=flat&logo=Construct%203&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)
+![Aseprite](https://img.shields.io/badge/Aseprite-655461?style=flat&logo=Aseprite&logoColor=white)
+![npm](https://img.shields.io/badge/npm-CB3837.svg?style=flat&logo=npm&logoColor=white)
+![JSON](https://img.shields.io/badge/JSON-9777A8.svg?style=flat&logo=JSON&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-3167EB.svg?style=flat&logo=Axios&logoColor=white)
+![Expo](https://img.shields.io/badge/Expo-5A29E4.svg?style=flat&logo=Expo&logoColor=white)
 
 </div>
 
 ---
 
-## 📚 Índice
+### 👨‍💻 Equipe
 
-- [📖 Visão Geral](#visão-geral)
-- [🚀 Primeiros Passos](#primeiros-passos)  
-  - [🔧 Pré-requisitos](#pré-requisitos)  
-  - [📦 Instalação](#instalação)  
-  - [▶️ Uso](#uso)  
-  - [🧪 Testes](#testes)
-
----
-
-## 📖 Visão Geral
-
-**Eco-educa** é um aplicativo voltado para o público infantil, apresentado no formato de um jogo interativo e educativo. Seu principal objetivo é, de forma lúdica e divertida, ensinar às crianças como o lixo descartado incorretamente pode prejudicar o meio ambiente — e que existem formas de “derrotá-lo”, reaproveitá-lo e transformá-lo em algo novo através da reciclagem.
-
-Com uma abordagem envolvente, o jogo promove a conscientização ambiental ao mesmo tempo em que estimula a criatividade, o senso de responsabilidade e o aprendizado por meio da gamificação.
-
-### Funcionalidades principais:
-
-- 🎯 **🧭 Integração com Localização & Mapas:** Exibe pontos de reciclagem e locais ecológicos em tempo real com base na localização do usuário.
-- 🚀 **🔒 Autenticação Segura:** Gerencia sessões de usuários com login baseado em token e personalização de perfil.
-- ⚙️ **🛠️ Arquitetura Modular:** Separação clara entre configuração, navegação e serviços principais, facilitando a manutenção.
-- 📡 **🌐 Centralização de APIs:** Comunicação com o backend unificada com Axios.
-- 🎨 **🎨 Recursos Personalizáveis & Plugins:** Suporte a fontes, plugins e assets específicos por plataforma.
+| Nome | Função |
+|------|--------|
+| Edson André | Desenvolvimento Frontend e Backend |
+| Fabio Aparecido| Desenvolvimento Frontend e Backend |
+| Guadalupe Delaila | Pesquisa e Criação de Artes |
+| Guilherme Franco | Designer UX/UI |
+| Juan Konrado| Designer UX/UI, Criação de Artes e Criação de Jogo |
+| Lucas Rodrigues | Pesquisa e Criação de Jogo |
+| Luise Marques | Gerenciamento de Projeto e um pouco de cada |
 
 ---
 
-## 🚀 Primeiros Passos
-
-### 🔧 Pré-requisitos
-
-Antes de começar, certifique-se de que você tem os seguintes itens instalados:
-
-- **Linguagem de Programação:** JavaScript  
-- **Gerenciador de Pacotes:** npm  
-
----
-
-### 📦 Instalação
-
-Siga os passos abaixo para clonar o repositório e instalar as dependências:
-
-1. **Clone o repositório:**
-
-```sh
-git clone https://github.com/DreDev3/eco-educa
-```
-2. **Acesse o diretório do projeto:**
-   
-```sh
-cd eco-educa
-```
-3. **Instale as dependências:**
-   
-```sh
-npm install
-```
-
-▶️ Uso
-Para rodar o projeto, utilize o comando:
-```sh
-npm start
-```
-
-[⬆ Voltar ao topo](#eco-educa)
+<p align="center">
+  Feito com carinho usando Códigos, Surtos e muito Café!
+</p>
