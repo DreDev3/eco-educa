@@ -1,4 +1,4 @@
-# ![Logo](./Assets/logoGuaxinim.png)  EcoEduca
+# ![Logo](./assets/logoGuaxinim.png)  EcoEduca
 
 ---
 
