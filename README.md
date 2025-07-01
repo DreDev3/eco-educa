@@ -39,7 +39,7 @@ O jogo _mobile_ **EcoEduca** visa promover o incentivo e conscientização de cr
 
 ---
 
-### 🧪 Tecnologias Utilizadas
+### 🧪 Tecnologias Utilizadas:
 
 <div align="center">
 
@@ -58,7 +58,7 @@ O jogo _mobile_ **EcoEduca** visa promover o incentivo e conscientização de cr
 
 ---
 
-### 👨‍💻 Equipe
+### 👨‍💻 Equipe:
 
 | Nome | Função |
 |------|--------|
