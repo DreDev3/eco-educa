@@ -9,11 +9,11 @@ O jogo _mobile_ **EcoEduca** visa promover o incentivo e conscientização de cr
 ---
 
 ### 📸 Telas do Sistema:
-| **Tela de Login** | **Tela de Cadastro** | **Tela de Login** | **Tela de Cadastro** |
+| **Tela de Login** | **Tela de Cadastro** | **Tela de Início** | **Tela de Avatar** |
 | ----------------- | -------------------- |  ----------------- | -------------------- |
 | <img src="./assets/Telas/Login.jpeg" alt="Tela de Login" width="200"> | <img src="./assets/Telas/Cadastro.jpeg" alt="Tela de Cadastro" width="200"> |  <img src="./assets/Telas/Inicio.jpeg" alt="Tela de Inicio" width="200"> |<img src="./assets/Telas/Avatar.jpeg" alt="Tela de Avatar" width="200"> |
   
-| **Tela de Login** | **Tela de Cadastro** |   **Tela de Login** | **Tela de Cadastro** |
+| **Tela de Mapa** | **Tela de Jogo** |   **Tela de Exclusão** | **Tela de Alterar Cadastro** |
 | ----------------- | -------------------- |  ----------------- | -------------------- |
 | <img src="./assets/Telas/Mapa.jpeg" alt="Tela de Mapa" width="200"> |<img src="./assets/Telas/Jogo.jpeg" alt="Tela de Jogo" width="200"> | <img src="./assets/Telas/Exclusao.jpeg" alt="Tela de Exclusão" width="200"> | <img src="./assets/Telas/AlterarCadastro.jpeg" alt="Tela de Alterar Cadastro" width="200"> |
 
